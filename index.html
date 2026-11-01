@@ -106,51 +106,61 @@
             color: var(--text-color);
             line-height: 2.1;
             margin: 0;
-            padding: 35px 20px;
+            padding: 28px 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* 顶栏与生词本容器 */
+        /* ==========================================================================
+           🧭 优化 2：顶栏左右分组工具栏 & 可折叠生词本
+           ========================================================================== */
         .top-container {
             width: 100%;
-            max-width: 1400px;
-            margin-bottom: 25px;
+            max-width: 1440px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
         }
 
         .control-panel {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
             gap: 12px;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         /* 🔘 顶栏按钮全局统一风格 */
         .control-panel button {
-            padding: 10px 20px;
+            padding: 9px 18px;
             border: 1px solid var(--input-border);
             background: var(--card-bg);
             color: var(--text-color);
             border-radius: var(--radius-md);
             cursor: pointer;
             font-weight: 700;
-            font-size: 14px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 13.5px;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: var(--shadow-sm);
         }
 
         .control-panel button:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: var(--shadow-md);
             border-color: var(--primary-color);
             color: var(--primary-color);
             background: var(--accent-bg);
         }
 
-        /* 顶栏按钮激活状态（当开启文本赏析、专注模式或生词测试时自动高亮） */
         .control-panel button.is-active {
             background: var(--primary-color);
             color: #ffffff;
@@ -161,16 +171,16 @@
             color: #ffffff;
         }
 
-        /* 生词本美化 */
+        /* 📖 优化 5：生词本支持词数统计与折叠收纳 */
         .vocab-notebook {
             width: 100%;
             background: var(--card-bg);
-            padding: 20px 26px;
+            padding: 16px 24px;
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-sm);
             box-sizing: border-box;
             border: 1px solid var(--input-border);
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
 
         .notebook-title {
@@ -179,10 +189,27 @@
             align-items: center;
             font-weight: 800;
             font-size: 15px;
-            margin-bottom: 12px;
             color: var(--text-color);
             flex-wrap: wrap;
             gap: 10px;
+        }
+
+        .notebook-title-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .nb-count-badge {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 12px;
+            background: var(--notebook-bg);
+            color: var(--notebook-color);
+            border: 1px solid rgba(43, 76, 101, 0.18);
         }
 
         .notebook-actions {
@@ -191,35 +218,24 @@
             align-items: center;
         }
 
-        .export-nb-btn {
+        .nb-action-btn {
             background: var(--notebook-bg);
             color: var(--notebook-color);
             border: 1px solid rgba(43, 76, 101, 0.2);
-            padding: 5px 14px;
+            padding: 4px 13px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 12px;
             font-weight: 700;
             transition: all 0.2s;
         }
-        .export-nb-btn:hover {
+        .nb-action-btn:hover {
             background: var(--primary-color);
             color: #ffffff;
             border-color: var(--primary-color);
         }
 
-        .clear-btn {
-            background: var(--notebook-bg);
-            color: var(--notebook-color);
-            border: 1px solid rgba(43, 76, 101, 0.2);
-            padding: 5px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 700;
-            transition: all 0.2s;
-        }
-        .clear-btn:hover {
+        .nb-action-btn.danger:hover {
             background: var(--wrong-color);
             color: #ffffff;
             border-color: var(--wrong-color);
@@ -229,14 +245,21 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--input-border);
+        }
+
+        .vocab-notebook.is-collapsed .notebook-list {
+            display: none;
         }
 
         .notebook-item {
             background: var(--notebook-bg);
             color: var(--notebook-color);
-            padding: 6px 16px;
+            padding: 5px 14px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             cursor: pointer;
             border: 1px solid rgba(43, 76, 101, 0.18);
@@ -249,13 +272,15 @@
             transform: translateY(-1px);
         }
 
-        /* 🖥️ 左右双栏核心工作区 */
+        /* ==========================================================================
+           🖥️ 优化 1：左右双栏 5.8 : 4.2 黄金阅读比 (1.38fr : 1fr)
+           ========================================================================== */
         .workspace-layout {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            grid-template-columns: 1.38fr 1fr;
+            gap: 24px;
             width: 100%;
-            max-width: 1400px;
+            max-width: 1440px;
             align-items: start;
             transition: all 0.3s ease;
         }
@@ -263,12 +288,12 @@
         /* 生词测试弹窗区 */
         .game-container {
             width: 100%;
-            max-width: 1400px;
+            max-width: 1440px;
             background: var(--card-bg);
-            padding: 35px;
+            padding: 32px;
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-md);
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             box-sizing: border-box;
             border: 1px solid var(--input-border);
         }
@@ -303,11 +328,13 @@
             letter-spacing: 2px;
         }
 
-        /* 左侧课文卡片 */
+        /* ==========================================================================
+           📄 优化 3：左侧课文卡片 & 段落角标安全轨道（防裁剪溢出）
+           ========================================================================== */
         .article-card {
             width: 100%;
             background: var(--card-bg);
-            padding: 45px 50px;
+            padding: 42px 46px 42px 72px; /* 左侧预留充足角标轨道空间 */
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-md);
             box-sizing: border-box;
@@ -317,35 +344,42 @@
             transition: max-height 0.3s ease;
         }
 
-        /* 右侧题目卡片 */
-        .quiz-side-card {
-            width: 100%;
-            background: var(--card-bg);
-            padding: 45px 50px;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            box-sizing: border-box;
-            border: 1px solid var(--input-border);
-            max-height: 82vh;
-            overflow-y: auto;
-            display: none;
-            transition: max-height 0.3s ease;
+        h1 {
+            text-align: center;
+            font-size: 31px;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 32px;
+            margin-left: -26px; /* 视觉居中补偿 */
+            letter-spacing: 2px;
+            font-family: "KaiTi", "STKaiti", serif;
+            color: var(--text-color);
         }
 
-        h1 { text-align: center; font-size: 32px; font-weight: 800; margin-top: 0; margin-bottom: 35px; letter-spacing: 2px; font-family: "KaiTi", "STKaiti", serif; color: var(--text-color); }
-        #content p { text-align: justify; text-justify: inter-ideograph; margin-bottom: 35px; font-size: 19.5px; letter-spacing: 1.8px; }
+        #content p {
+            text-align: justify;
+            text-justify: inter-ideograph;
+            margin-bottom: 32px;
+            font-size: 19.5px;
+            letter-spacing: 1.6px;
+        }
 
         .p-index {
-            display: inline-block;
-            font-size: 12px;
+            position: absolute;
+            left: -54px;
+            top: 6px;
+            width: 44px;
+            text-align: center;
+            text-indent: 0;
+            font-size: 11.5px;
+            line-height: 1.6;
             background: var(--notebook-bg);
             color: var(--notebook-color);
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 1px 0;
+            border-radius: 5px;
             font-weight: 700;
             user-select: none;
-            margin-right: 6px;
-            border: 1px solid var(--input-border);
+            border: 1px solid rgba(43, 76, 101, 0.16);
         }
 
         ruby { ruby-position: over; cursor: pointer; padding: 0 2px; border-radius: 4px; transition: all 0.2s ease; }
@@ -365,7 +399,84 @@
         #content[data-pinyin-mode="show"] rt { opacity: 1 !important; }
         #content[data-pinyin-mode="hide"] rt { opacity: 0 !important; }
 
-        /* 气泡弹窗 */
+        /* ==========================================================================
+           🗂️ 优化 4：右侧题目卡片 & 顶部吸顶分段标签栏 (Segmented Tabs)
+           ========================================================================== */
+        .quiz-side-card {
+            width: 100%;
+            background: var(--card-bg);
+            padding: 0 36px 38px 36px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            box-sizing: border-box;
+            border: 1px solid var(--input-border);
+            max-height: 82vh;
+            overflow-y: auto;
+            display: none;
+            transition: max-height 0.3s ease;
+        }
+
+        .quiz-sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: var(--card-bg);
+            padding: 24px 0 16px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--input-border);
+        }
+
+        .quiz-tabs-bar {
+            display: flex;
+            background: var(--notebook-bg);
+            padding: 4px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(43, 76, 101, 0.14);
+            gap: 4px;
+        }
+
+        .quiz-tab-btn {
+            flex: 1;
+            padding: 8px 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13.5px;
+            font-weight: 700;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .quiz-tab-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .quiz-tab-btn.is-active {
+            background: var(--primary-color);
+            color: #ffffff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-sub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-bottom: 2px dashed var(--input-border);
+        }
+
+        .section-sub-header h2 {
+            font-size: 18px;
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        /* ==========================================================================
+           💬 优化 6：词典气泡弹窗（支持上下双向智能翻转防遮挡）
+           ========================================================================== */
         .buddy-popover {
             display: none;
             position: fixed;
@@ -378,11 +489,11 @@
             width: 290px;
             box-sizing: border-box;
             border: 1.5px solid var(--primary-color);
-            animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: popIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes popIn {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .pop-title-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--input-border); padding-bottom: 10px; }
@@ -395,7 +506,25 @@
         .pop-footer { display: flex; justify-content: flex-end; margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--input-border); }
         .pop-btn-copy { background: var(--primary-color); color: white; border: none; padding: 6px 16px; border-radius: var(--radius-md); font-size: 13px; cursor: pointer; font-weight: 800; transition: opacity 0.2s; }
         .pop-btn-copy:hover { opacity: 0.9; }
-        .pop-arrow { position: absolute; bottom: -8px; left: 50%; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid var(--card-bg); transform: translateX(-50%); }
+
+        /* 气泡箭头：默认朝下，当翻转至词语下方弹出时朝上 */
+        .pop-arrow {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--primary-color);
+            transform: translateX(-50%);
+        }
+        .buddy-popover.is-flipped .pop-arrow {
+            bottom: auto;
+            top: -8px;
+            border-top: none;
+            border-bottom: 8px solid var(--primary-color);
+        }
 
         /* 🔘 客观选择题选项按钮样式 */
         .quiz-choice-btn { 
@@ -434,7 +563,7 @@
         /* 简答题文本框样式 */
         .essay-textarea {
             width: 100%;
-            height: 85px;
+            height: 95px;
             padding: 12px;
             border-radius: var(--radius-md);
             border: 1.5px solid var(--input-border);
@@ -470,8 +599,8 @@
 
         /* 📋 作答报告底部导出栏 */
         .report-action-bar {
-            margin-top: 30px;
-            padding: 18px 20px;
+            margin-top: 28px;
+            padding: 16px 18px;
             background: var(--ai-bg);
             border: 1px dashed var(--input-border);
             border-radius: var(--radius-md);
@@ -502,13 +631,15 @@
             color: var(--ai-color) !important;
             padding: 20px;
             margin-bottom: 25px;
+            margin-left: -26px;
             border-radius: var(--radius-md);
             font-weight: 700;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1080px) {
             .workspace-layout { grid-template-columns: 1fr; }
             .article-card, .quiz-side-card { max-height: none; }
+            .article-card { padding: 32px 24px 32px 62px; }
         }
 
         /* ==========================================================================
@@ -523,6 +654,7 @@
             }
             .control-panel,
             .notebook-actions,
+            .quiz-sticky-header,
             #gameContainer,
             #buddyPopover,
             #submitQuizBtn,
@@ -541,6 +673,9 @@
                 padding: 12px 16px !important;
                 page-break-inside: avoid;
             }
+            .vocab-notebook.is-collapsed .notebook-list {
+                display: flex !important;
+            }
             .workspace-layout {
                 display: block !important;
                 width: 100% !important;
@@ -551,7 +686,7 @@
                 overflow: visible !important;
                 box-shadow: none !important;
                 border: none !important;
-                padding: 10px 0 10px 55px !important;
+                padding: 10px 0 10px 58px !important;
                 background: #ffffff !important;
                 width: 100% !important;
             }
@@ -560,6 +695,11 @@
                 margin-top: 25px !important;
                 border-top: 2px solid #2b4c65 !important;
                 padding-top: 20px !important;
+            }
+            /* 打印时强制展开客观题与主观题双面板 */
+            #mcSectionWrapper,
+            #essaySectionWrapper {
+                display: block !important;
             }
             .quiz-choice-btn {
                 border: 1px solid #94a3b8 !important;
@@ -575,24 +715,35 @@
 </head>
 <body>
 
-    <!-- 顶栏操作区（全部按钮颜色与材质完全统一） -->
+    <!-- 顶栏操作区（优化 2：左右功能分组，主次分明） -->
     <div id="topContainer" class="top-container">
         <div class="control-panel">
-            <button id="themeToggleBtn" onclick="toggleTheme()">🌓 切换主题</button>
-            <button id="pinyinToggleBtn" onclick="togglePinyinMode()">🔤 拼音：悬停</button>
-            <button id="gameToggleBtn" onclick="toggleGameMode()">🎯 生词测试</button>
-            <button id="teacherToggleBtn" onclick="toggleTeacherMode()">👁️ 文本赏析</button>
-            <button id="focusToggleBtn" onclick="toggleFocusMode()">📖 专注模式</button>
-            <button id="topReportBtn" onclick="generateStudyReport(this)">📋 复制学习报告</button>
-            <button onclick="window.print()">🖨️ 打印 / PDF</button>
+            <!-- 左侧：核心阅读与教学交互开关 -->
+            <div class="control-group">
+                <button id="pinyinToggleBtn" onclick="togglePinyinMode()">🔤 拼音：悬停</button>
+                <button id="teacherToggleBtn" onclick="toggleTeacherMode()">👁️ 文本赏析</button>
+                <button id="gameToggleBtn" onclick="toggleGameMode()">🎯 生词测试</button>
+                <button id="focusToggleBtn" onclick="toggleFocusMode()">📖 专注模式</button>
+            </div>
+            <!-- 右侧：全局导出与视图环境工具 -->
+            <div class="control-group">
+                <button id="topReportBtn" onclick="generateStudyReport(this)">📋 复制学习报告</button>
+                <button onclick="window.print()">🖨️ 打印 / PDF</button>
+                <button id="themeToggleBtn" onclick="toggleTheme()">🌓 切换主题</button>
+            </div>
         </div>
 
+        <!-- 优化 5：支持词数统计与一键折叠的生词本 -->
         <div id="vocabNotebookCard" class="vocab-notebook">
             <div class="notebook-title">
-                <span>📖 我的生词本</span>
+                <div class="notebook-title-left" onclick="toggleNotebookCollapse()" title="点击折叠或展开生词本">
+                    <span>📖 我的生词本</span>
+                    <span id="nbCountBadge" class="nb-count-badge">0 词</span>
+                </div>
                 <div class="notebook-actions">
-                    <button id="exportNbBtn" class="export-nb-btn" onclick="exportNotebook(this)">导出词表 📋</button>
-                    <button class="clear-btn" onclick="forceClearNotebook()">清空本子 🗑️</button>
+                    <button id="collapseNbBtn" class="nb-action-btn" onclick="toggleNotebookCollapse()">收起 ▲</button>
+                    <button id="exportNbBtn" class="nb-action-btn" onclick="exportNotebook(this)">导出词表 📋</button>
+                    <button class="nb-action-btn danger" onclick="forceClearNotebook()">清空本子 🗑️</button>
                 </div>
             </div>
             <div id="notebookList" class="notebook-list"></div>
@@ -609,10 +760,10 @@
         </div>
     </div>
 
-    <!-- 左右双栏主工作区 -->
+    <!-- 左右双栏主工作区（优化 1：5.8 : 4.2 黄金双栏比例） -->
     <div class="workspace-layout">
         <!-- 左侧：课文与总览赏析 -->
-        <div class="article-card">
+        <div id="articleCard" class="article-card">
             <h1 id="articleTitle">课文加载中...</h1>
             <div id="teacherArticleAnalysis" style="display: none; position: relative;">
                 <div id="teacherArticleAnalysisContent"></div>
@@ -620,43 +771,57 @@
             <div id="content" data-pinyin-mode="hover"></div>
         </div>
 
-        <!-- 右侧：客观题及简答题区 -->
+        <!-- 右侧：客观题及简答题区（优化 4：吸顶分段切换栏） -->
         <div id="quizSection" class="quiz-side-card">
-            <h2 style="font-size: 20px; margin-bottom: 20px; border-bottom: 2px dashed var(--input-border); padding-bottom: 10px;">📝 一、选择题（客观题）</h2>
-            <div id="quizContainer"></div>
-
-            <div class="no-print" style="margin-top: 25px; padding-top: 15px; border-top: 2px solid var(--input-border); text-align: center;">
-                <button id="submitQuizBtn" onclick="submitAndShowWrongOnly()" style="padding: 12px 32px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 25px; font-size: 15px; font-weight: 800; cursor: pointer; transition: opacity 0.2s;">
-                    提交客观题检查 🚀
-                </button>
-                <button id="retryQuizBtn" onclick="retryQuizAnswers()" style="display: none; padding: 12px 32px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--input-border); border-radius: 25px; font-size: 15px; font-weight: 800; cursor: pointer; margin-right: 10px;">
-                    重新作答 🔄
-                </button>
-                <button id="showCorrectBtn" onclick="revealRealCorrectAnswers()" style="display: none; padding: 12px 32px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 25px; font-size: 15px; font-weight: 800; cursor: pointer;">
-                    查看客观题答案 👁️
-                </button>
-                <div id="quizResultScore" style="margin-top: 15px; font-size: 17px; font-weight: 800; color: var(--primary-color); display: none; line-height: 1.6;"></div>
+            <div class="quiz-sticky-header">
+                <div class="quiz-tabs-bar">
+                    <button id="tabBtnMc" class="quiz-tab-btn is-active" onclick="switchQuizTab('mc')">📝 客观选择题</button>
+                    <button id="tabBtnEssay" class="quiz-tab-btn" onclick="switchQuizTab('essay')">✍️ 主观简答题</button>
+                    <button id="tabBtnAll" class="quiz-tab-btn" onclick="switchQuizTab('all')">📋 全部展开</button>
+                </div>
             </div>
 
-            <div style="margin-top: 40px; padding-top: 25px; border-top: 3px solid var(--input-border);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px dashed var(--input-border); padding-bottom: 10px;">
-                    <h2 style="font-size: 20px; margin: 0; color: var(--text-color);">✍️ 二、简答题（主观题）</h2>
-                    <button class="no-print" onclick="clearEssayDrafts()" style="background: var(--notebook-bg); color: var(--notebook-color); border: 1px solid rgba(43, 76, 101, 0.2); padding: 5px 12px; border-radius: 12px; font-size: 11.5px; font-weight: 700; cursor: pointer;" title="清空所有简答题输入草稿">清空简答草稿 🗑️</button>
+            <!-- 面板一：客观选择题 -->
+            <div id="mcSectionWrapper">
+                <div class="section-sub-header">
+                    <h2>📝 一、选择题（客观题）</h2>
+                </div>
+                <div id="quizContainer"></div>
+
+                <div class="no-print" style="margin-top: 25px; padding-top: 15px; border-top: 2px solid var(--input-border); text-align: center;">
+                    <button id="submitQuizBtn" onclick="submitAndShowWrongOnly()" style="padding: 12px 32px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 25px; font-size: 15px; font-weight: 800; cursor: pointer; transition: opacity 0.2s;">
+                        提交客观题检查 🚀
+                    </button>
+                    <button id="retryQuizBtn" onclick="retryQuizAnswers()" style="display: none; padding: 12px 32px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--input-border); border-radius: 25px; font-size: 15px; font-weight: 800; cursor: pointer; margin-right: 10px;">
+                        重新作答 🔄
+                    </button>
+                    <button id="showCorrectBtn" onclick="revealRealCorrectAnswers()" style="display: none; padding: 12px 32px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 25px; font-size: 15px; font-weight: 800; cursor: pointer;">
+                        查看客观题答案 👁️
+                    </button>
+                    <div id="quizResultScore" style="margin-top: 15px; font-size: 17px; font-weight: 800; color: var(--primary-color); display: none; line-height: 1.6;"></div>
+                </div>
+            </div>
+
+            <!-- 面板二：主观简答题 -->
+            <div id="essaySectionWrapper" style="display: none;">
+                <div class="section-sub-header">
+                    <h2>✍️ 二、简答题（主观题）</h2>
+                    <button class="no-print nb-action-btn danger" onclick="clearEssayDrafts()" title="清空所有简答题输入草稿">清空简答草稿 🗑️</button>
                 </div>
                 <div id="essayContainer"></div>
             </div>
 
             <!-- 底部一键生成作答报告栏 -->
             <div class="report-action-bar">
-                <div style="font-size: 13.5px; color: var(--text-muted); font-weight: 600;">
-                    💡 完成作答后，可一键复制完整学习记录提交给老师，或导出 PDF 讲义保存。
+                <div style="font-size: 13px; color: var(--text-muted); font-weight: 600;">
+                    💡 完成后可一键复制学习记录提交给老师，或导出 PDF 讲义。
                 </div>
-                <div style="display: flex; gap: 10px;">
-                    <button onclick="generateStudyReport(this)" style="padding: 8px 18px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 20px; font-size: 13px; font-weight: 800; cursor: pointer;">
-                        📋 一键复制学习报告
+                <div style="display: flex; gap: 8px;">
+                    <button onclick="generateStudyReport(this)" style="padding: 7px 16px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 20px; font-size: 12.5px; font-weight: 800; cursor: pointer;">
+                        📋 复制学习报告
                     </button>
-                    <button onclick="window.print()" style="padding: 8px 18px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--input-border); border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer;">
-                        🖨️ 打印 / 导出 PDF
+                    <button onclick="window.print()" style="padding: 7px 16px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--input-border); border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer;">
+                        🖨️ 导出 PDF
                     </button>
                 </div>
             </div>
@@ -689,9 +854,17 @@
         let isLocked = false;
         let isTeacherMode = false;
         let isFocusMode = false;
+        let isNbCollapsed = false;
+        let currentQuizTab = 'mc'; // 'mc' | 'essay' | 'all'
         let pinyinMode = 'hover';
         let isQuizSubmitted = false;
         let userSelectedAnswers = {};
+
+        function hidePopover() {
+            const pop = document.getElementById('buddyPopover');
+            if (pop) pop.style.display = 'none';
+            document.querySelectorAll('ruby').forEach(r => r.classList.remove('is-active'));
+        }
 
         window.onload = function() {
             if (typeof lessonTitle !== 'undefined') {
@@ -706,13 +879,64 @@
 
             renderMultipleChoiceQuizzes();
             renderEssayQuizzes();
+            updateQuizTabCounts();
+            switchQuizTab('mc');
             
             document.body.appendChild(document.getElementById('buddyPopover'));
-            document.addEventListener('click', () => { 
-                document.getElementById('buddyPopover').style.display = 'none'; 
-                document.querySelectorAll('ruby').forEach(r => r.classList.remove('is-active'));
-            });
+            document.addEventListener('click', hidePopover);
+
+            // 滚动课文或调整窗口时自动收起词典气泡，防止悬空错位
+            const articleCard = document.getElementById('articleCard');
+            if (articleCard) articleCard.addEventListener('scroll', hidePopover, { passive: true });
+            window.addEventListener('resize', hidePopover, { passive: true });
         };
+
+        /* 🗂️ 优化 4：右侧答题区标签页切换逻辑 */
+        function updateQuizTabCounts() {
+            const mcCount = (typeof quizDataList !== 'undefined') ? quizDataList.length : 0;
+            const essayCount = (typeof essayDataList !== 'undefined') ? essayDataList.length : 0;
+            document.getElementById('tabBtnMc').innerText = `📝 客观选择题 (${mcCount})`;
+            document.getElementById('tabBtnEssay').innerText = `✍️ 主观简答题 (${essayCount})`;
+        }
+
+        function switchQuizTab(tabName) {
+            currentQuizTab = tabName;
+            const mcWrap = document.getElementById('mcSectionWrapper');
+            const essayWrap = document.getElementById('essaySectionWrapper');
+
+            document.getElementById('tabBtnMc').classList.toggle('is-active', tabName === 'mc');
+            document.getElementById('tabBtnEssay').classList.toggle('is-active', tabName === 'essay');
+            document.getElementById('tabBtnAll').classList.toggle('is-active', tabName === 'all');
+
+            if (tabName === 'mc') {
+                mcWrap.style.display = 'block';
+                essayWrap.style.display = 'none';
+                essayWrap.style.marginTop = '0';
+                essayWrap.style.paddingTop = '0';
+                essayWrap.style.borderTop = 'none';
+            } else if (tabName === 'essay') {
+                mcWrap.style.display = 'none';
+                essayWrap.style.display = 'block';
+                essayWrap.style.marginTop = '0';
+                essayWrap.style.paddingTop = '0';
+                essayWrap.style.borderTop = 'none';
+            } else {
+                mcWrap.style.display = 'block';
+                essayWrap.style.display = 'block';
+                essayWrap.style.marginTop = '36px';
+                essayWrap.style.paddingTop = '24px';
+                essayWrap.style.borderTop = '3px solid var(--input-border)';
+            }
+        }
+
+        /* 📖 优化 5：生词本折叠与展开 */
+        function toggleNotebookCollapse() {
+            isNbCollapsed = !isNbCollapsed;
+            const card = document.getElementById('vocabNotebookCard');
+            const btn = document.getElementById('collapseNbBtn');
+            card.classList.toggle('is-collapsed', isNbCollapsed);
+            btn.innerText = isNbCollapsed ? "展开 ▼" : "收起 ▲";
+        }
 
         /* 📋 通用剪贴板复制工具 */
         function copyTextToClipboard(text, btnElement, successLabel) {
@@ -748,7 +972,7 @@
             document.body.removeChild(ta);
         }
 
-        /* 🔤 1. 拼音三态切换逻辑 */
+        /* 🔤 拼音三态切换逻辑 */
         function togglePinyinMode() {
             const cnt = document.getElementById('content');
             const btn = document.getElementById('pinyinToggleBtn');
@@ -770,7 +994,7 @@
             }
         }
 
-        /* 📤 2. 生词本一键导出逻辑 */
+        /* 📤 生词本一键导出逻辑 */
         function exportNotebook(btnElement) {
             if (saved.length === 0) {
                 alert("📖 生词本目前是空的哦！请先在正文中点击词语并点击 Copy 收集生词。");
@@ -789,7 +1013,7 @@
             copyTextToClipboard(lines.join("\n"), btnElement, "✓ 词表已复制");
         }
 
-        /* 📋 3. 一键生成作答报告逻辑 */
+        /* 📋 一键生成作答报告逻辑 */
         function generateStudyReport(btnElement) {
             const title = (typeof lessonTitle !== 'undefined') ? lessonTitle : document.getElementById('articleTitle').innerText;
             const nowStr = new Date().toLocaleString('zh-CN', { hour12: false });
@@ -919,10 +1143,6 @@
                     let s = document.createElement("span");
                     s.className = "p-index";
                     s.innerText = `第${pNum}段`;
-                    s.style.position = "absolute";
-                    s.style.left = "-55px"; 
-                    s.style.top = "4px"; 
-                    s.style.textIndent = "0"; 
                     
                     paragraphElement.insertBefore(s, paragraphElement.firstChild); 
                     cnt.appendChild(paragraphElement);
@@ -1244,6 +1464,7 @@
             document.getElementById('showCorrectBtn').style.display = "none";
         }
 
+        /* 💬 优化 6：词典气泡智能翻转定位（防屏幕顶部遮挡） */
         function openPop(el, i) {
             currentIdx = i; const d = lessonData[i];
             document.getElementById('popWord').innerText = d[0];
@@ -1253,14 +1474,20 @@
             
             const pop = document.getElementById('buddyPopover'); 
             const arrow = document.getElementById('popArrow');
+            pop.classList.remove('is-flipped');
             pop.style.display = 'block'; 
             
             const rect = el.getBoundingClientRect(); 
             const popRect = pop.getBoundingClientRect();
             
-            let top = rect.top - popRect.height - 15; 
+            let top = rect.top - popRect.height - 12;
+            // 若词语距离视口顶部不足以放下气泡，则自动翻转到词语正下方弹出
+            if (top < 12) {
+                top = rect.bottom + 12;
+                pop.classList.add('is-flipped');
+            }
+
             let left = rect.left + (rect.width / 2) - (popRect.width / 2);
-            
             if (left + popRect.width > window.innerWidth - 15) left = window.innerWidth - popRect.width - 15;
             if (left < 15) left = 15;
             
@@ -1283,7 +1510,10 @@
 
         function renderNB() { 
             const list = document.getElementById('notebookList'); 
+            const badge = document.getElementById('nbCountBadge');
+            if (badge) badge.innerText = `${saved.length} 词`;
             if (!list) return;
+
             if (saved.length === 0) { 
                 list.innerHTML = "<span style='color:var(--text-muted); font-size:13.5px;'>点击正文词语 Copy 记录生词</span>"; 
             } else { 
@@ -1310,7 +1540,7 @@
                             setTimeout(() => { 
                                 target.classList.add('is-active'); 
                                 openPop(target, idx); 
-                            }, 500); 
+                            }, 450); 
                         } 
                     }; 
                     div.appendChild(textSpan);
